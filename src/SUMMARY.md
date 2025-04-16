@@ -1,3 +1,0 @@
-# Summary
-
-- [Consul](Consul.md)
