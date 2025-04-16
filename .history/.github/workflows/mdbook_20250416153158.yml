@@ -56,8 +56,6 @@ jobs:
         run: git clone https://github.com/cococolanosugar/mdbook-auto-gen-summary.git
       - name: Install mdbook-auto-gen-summary
         run: cargo install --path ./mdbook-auto-gen-summary
-      - name: Remove existing SUMMARY.md
-        run: rm -f src/SUMMARY.md
       - name: Generate SUMMARY.md
         run: mdbook-auto-gen-summary gen src
       - name: Setup Pages
