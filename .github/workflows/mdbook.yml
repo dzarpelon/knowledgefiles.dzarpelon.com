@@ -49,6 +49,8 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./book
+      - name: Ensure index.html is writable
+        run: chmod +w book/index.html
 
   # Deployment job
   deploy:
