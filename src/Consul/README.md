@@ -1,1 +1,3 @@
-# testing subdirs
+# Consul Knowledge Base
+
+This directory contains Consul documents and my cheat sheets.
