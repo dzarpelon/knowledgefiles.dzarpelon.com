@@ -2,9 +2,6 @@
 
 This directory contains Consul documents and my cheat sheets.
 
-## Table of Contents
-
-- [README](README.md)
 # Table of Contents
 
 - [Cheatsheet](cheatsheet.md)
