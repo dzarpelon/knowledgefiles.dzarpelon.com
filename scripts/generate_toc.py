@@ -1,5 +1,14 @@
 import os
 
+def get_first_line(file_path):
+    """Get the first non-empty line from a markdown file."""
+    with open(file_path, "r") as file:
+        for line in file:
+            stripped_line = line.strip()
+            if stripped_line:  # Skip empty lines
+                return stripped_line.lstrip("# ").strip()  # Remove leading '#' for titles
+    return "Untitled"
+
 def generate_toc(directory):
     readme_path = os.path.join(directory, "README.md")
     if not os.path.exists(readme_path):
@@ -18,7 +27,8 @@ def generate_toc(directory):
     # Generate TOC content
     toc_lines = ["# Table of Contents\n"]
     for md_file in markdown_files:
-        title = os.path.splitext(md_file)[0].replace("_", " ").title()
+        file_path = os.path.join(directory, md_file)
+        title = get_first_line(file_path)
         toc_lines.append(f"- [{title}]({md_file})")
 
     # Read the existing README.md content
