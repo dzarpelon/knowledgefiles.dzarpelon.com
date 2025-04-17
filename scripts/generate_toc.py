@@ -137,10 +137,10 @@ def generate_toc_snippet(summary_file, snippet_file):
     with open(snippet_file, "w") as snippet:
         snippet.write("\n".join(toc_lines))
 
-def include_toc_in_index(index_file, snippet_file):
-    """Replace a placeholder in index.html with the content of toc_snippet.html."""
-    if not os.path.exists(index_file):
-        print(f"index.html not found at {index_file}")
+def include_toc_in_readme(readme_file, snippet_file):
+    """Insert the TOC snippet into the root README.md file."""
+    if not os.path.exists(readme_file):
+        print(f"README.md not found at {readme_file}")
         return
 
     if not os.path.exists(snippet_file):
@@ -151,14 +151,17 @@ def include_toc_in_index(index_file, snippet_file):
     with open(snippet_file, "r") as snippet:
         snippet_content = snippet.read()
 
-    # Replace the placeholder in index.html
-    with open(index_file, "r") as index:
-        index_content = index.read()
+    # Insert the TOC snippet into README.md
+    with open(readme_file, "r") as readme:
+        readme_content = readme.readlines()
 
-    updated_content = index_content.replace("<!-- TOC_SNIPPET -->", snippet_content)
-
-    with open(index_file, "w") as index:
-        index.write(updated_content)
+    with open(readme_file, "w") as readme:
+        toc_inserted = False
+        for line in readme_content:
+            readme.write(line)
+            if line.strip() == "# Table of Contents" and not toc_inserted:
+                readme.write(snippet_content + "\n")
+                toc_inserted = True
 
 if __name__ == "__main__":
     # Example usage: Generate TOC for all subdirectories in src
@@ -168,13 +171,10 @@ if __name__ == "__main__":
         if os.path.isdir(subdir_path):
             generate_toc(subdir_path)
 
-    # Generate TOC for the root index.html using SUMMARY.md
-    book_dir = os.path.join(os.getcwd(), "book")
+    # Generate TOC snippet for the root README.md using SUMMARY.md
     summary_file = os.path.join(os.getcwd(), "src", "SUMMARY.md")
-    index_file = os.path.join(book_dir, "index.html")
-    generate_index_toc_from_summary(summary_file, index_file)
+    snippet_file = os.path.join(os.getcwd(), "src", "toc_snippet.html")
+    readme_file = os.path.join(os.getcwd(), "src", "README.md")
 
-    # Generate TOC snippet for the root index.html using SUMMARY.md
-    snippet_file = os.path.join(book_dir, "toc_snippet.html")
     generate_toc_snippet(summary_file, snippet_file)
-    include_toc_in_index(index_file, snippet_file)
+    include_toc_in_readme(readme_file, snippet_file)
