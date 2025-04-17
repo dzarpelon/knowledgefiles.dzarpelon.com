@@ -1,1 +1,22 @@
+# Ignore the book output directory
 book
+
+# Ignore the Dockerfile
+Dockerfile
+
+# Ignore VS Code workspace and settings files
+*.code-workspace
+.vscode/
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore log files
+*.log
+
+# Ignore temporary files
+*.tmp
+*.swp
+
+# Ignore node_modules if any JavaScript/Node.js tools are used
+node_modules/
