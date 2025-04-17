@@ -48,6 +48,33 @@ def generate_toc(directory):
         # Write the new TOC
         readme_file.write("\n".join(toc_lines) + "\n")
 
+def generate_index_toc(base_dir, index_file):
+    """Generate a TOC for the root index.html file with folder names."""
+    folders = [
+        f for f in os.listdir(base_dir)
+        if os.path.isdir(os.path.join(base_dir, f))
+    ]
+
+    # Sort folders alphabetically
+    folders.sort()
+
+    # Generate TOC content
+    toc_lines = ["<ul>"]
+    for folder in folders:
+        toc_lines.append(f'<li><a href="{folder}/index.html">{folder}</a></li>')
+    toc_lines.append("</ul>")
+
+    # Write the TOC to the index.html file
+    with open(index_file, "r") as index:
+        index_content = index.readlines()
+
+    with open(index_file, "w") as index:
+        for line in index_content:
+            index.write(line)
+            if "<body>" in line:  # Insert TOC after the opening <body> tag
+                index.write("\n".join(toc_lines) + "\n")
+                break
+
 if __name__ == "__main__":
     # Example usage: Generate TOC for all subdirectories in src
     base_dir = os.path.join(os.getcwd(), "src")
@@ -55,3 +82,8 @@ if __name__ == "__main__":
         subdir_path = os.path.join(base_dir, subdir)
         if os.path.isdir(subdir_path):
             generate_toc(subdir_path)
+
+    # Generate TOC for the root index.html
+    book_dir = os.path.join(os.getcwd(), "book")
+    index_file = os.path.join(book_dir, "index.html")
+    generate_index_toc(book_dir, index_file)
