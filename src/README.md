@@ -4,4 +4,4 @@ This page is a collection of my notes, cheat sheets, and other resources that I'
 
 This is a work in progress, and I will be adding more content over time. If you have any suggestions or feedback, please feel free to reach out to me.
 
-# Table of Contents
+## Table of Contents

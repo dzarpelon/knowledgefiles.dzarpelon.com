@@ -163,6 +163,42 @@ def include_toc_in_readme(readme_file, snippet_file):
                 readme.write(snippet_content + "\n")
                 toc_inserted = True
 
+def update_readme_with_toc(summary_file, readme_file):
+    """Update the README.md file with the TOC directly below the '# Table of Contents' header."""
+    if not os.path.exists(summary_file):
+        print(f"SUMMARY.md not found at {summary_file}")
+        return
+
+    if not os.path.exists(readme_file):
+        print(f"README.md not found at {readme_file}")
+        return
+
+    entries = extract_first_level_entries(summary_file)
+
+    # Generate TOC content
+    toc_lines = ["## Table of Contents\n"]
+    for title, link in entries:
+        toc_lines.append(f"- [{title}]({link})")
+
+    # Read the existing README.md content
+    with open(readme_file, "r") as readme:
+        readme_content = readme.readlines()
+
+    # Write the updated README.md content
+    with open(readme_file, "w") as readme:
+        toc_started = False
+        for line in readme_content:
+            if line.strip() == "## Table of Contents":
+                toc_started = True
+                readme.write(line)
+                readme.write("\n".join(toc_lines) + "\n")
+                continue
+            if toc_started and line.strip() == "":
+                toc_started = False
+                continue
+            if not toc_started:
+                readme.write(line)
+
 if __name__ == "__main__":
     # Example usage: Generate TOC for all subdirectories in src
     base_dir = os.path.join(os.getcwd(), "src")
@@ -178,3 +214,9 @@ if __name__ == "__main__":
 
     generate_toc_snippet(summary_file, snippet_file)
     include_toc_in_readme(readme_file, snippet_file)
+
+    # Example usage: Update README.md with TOC from SUMMARY.md
+    summary_file = os.path.join(os.getcwd(), "src", "SUMMARY.md")
+    readme_file = os.path.join(os.getcwd(), "src", "README.md")
+
+    update_readme_with_toc(summary_file, readme_file)
