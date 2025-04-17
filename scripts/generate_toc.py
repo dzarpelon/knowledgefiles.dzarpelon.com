@@ -137,6 +137,29 @@ def generate_toc_snippet(summary_file, snippet_file):
     with open(snippet_file, "w") as snippet:
         snippet.write("\n".join(toc_lines))
 
+def include_toc_in_index(index_file, snippet_file):
+    """Replace a placeholder in index.html with the content of toc_snippet.html."""
+    if not os.path.exists(index_file):
+        print(f"index.html not found at {index_file}")
+        return
+
+    if not os.path.exists(snippet_file):
+        print(f"TOC snippet not found at {snippet_file}")
+        return
+
+    # Read the snippet content
+    with open(snippet_file, "r") as snippet:
+        snippet_content = snippet.read()
+
+    # Replace the placeholder in index.html
+    with open(index_file, "r") as index:
+        index_content = index.read()
+
+    updated_content = index_content.replace("<!-- TOC_SNIPPET -->", snippet_content)
+
+    with open(index_file, "w") as index:
+        index.write(updated_content)
+
 if __name__ == "__main__":
     # Example usage: Generate TOC for all subdirectories in src
     base_dir = os.path.join(os.getcwd(), "src")
@@ -154,3 +177,4 @@ if __name__ == "__main__":
     # Generate TOC snippet for the root index.html using SUMMARY.md
     snippet_file = os.path.join(book_dir, "toc_snippet.html")
     generate_toc_snippet(summary_file, snippet_file)
+    include_toc_in_index(index_file, snippet_file)
