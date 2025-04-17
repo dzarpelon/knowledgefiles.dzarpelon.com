@@ -119,6 +119,24 @@ def generate_index_toc_from_summary(summary_file, index_file):
                 index.write("\n".join(toc_lines) + "\n")
                 break
 
+def generate_toc_snippet(summary_file, snippet_file):
+    """Generate a TOC snippet HTML file using SUMMARY.md."""
+    if not os.path.exists(summary_file):
+        print(f"SUMMARY.md not found at {summary_file}")
+        return
+
+    entries = extract_first_level_entries(summary_file)
+
+    # Generate TOC content
+    toc_lines = ["<ul>"]
+    for title, link in entries:
+        toc_lines.append(f'<li><a href="{link}">{title}</a></li>')
+    toc_lines.append("</ul>")
+
+    # Write the TOC snippet to the file
+    with open(snippet_file, "w") as snippet:
+        snippet.write("\n".join(toc_lines))
+
 if __name__ == "__main__":
     # Example usage: Generate TOC for all subdirectories in src
     base_dir = os.path.join(os.getcwd(), "src")
@@ -132,3 +150,7 @@ if __name__ == "__main__":
     summary_file = os.path.join(os.getcwd(), "src", "SUMMARY.md")
     index_file = os.path.join(book_dir, "index.html")
     generate_index_toc_from_summary(summary_file, index_file)
+
+    # Generate TOC snippet for the root index.html using SUMMARY.md
+    snippet_file = os.path.join(book_dir, "toc_snippet.html")
+    generate_toc_snippet(summary_file, snippet_file)
