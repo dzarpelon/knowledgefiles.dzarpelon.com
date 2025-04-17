@@ -39,6 +39,8 @@ jobs:
           docker run --rm -v "${{ github.workspace }}:/workspace" -w /workspace dzarpelon/mdbook-builder:latest bash -c "\
             mdbook-auto-gen-summary gen src && \
             mdbook build"
+      - name: Adjust permissions for index.html
+        run: chmod +w book/index.html
       - name: Run TOC generation script
         run: |
           python3 scripts/generate_toc.py
@@ -49,8 +51,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./book
-      - name: Ensure index.html is writable
-        run: chmod +w book/index.html
 
   # Deployment job
   deploy:
