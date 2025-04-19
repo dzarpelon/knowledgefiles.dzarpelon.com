@@ -26,7 +26,7 @@ def generate_toc(directory):
     markdown_files.sort()
 
     # Generate TOC content
-    toc_lines = ["# Table of Contents\n"]
+    toc_lines = ["## Table of Contents\n"]
     for md_file in markdown_files:
         file_path = os.path.join(directory, md_file)
         title = get_first_line(file_path)
@@ -36,18 +36,20 @@ def generate_toc(directory):
     with open(readme_path, "r") as readme_file:
         readme_content = readme_file.readlines()
 
-    # Find the TOC section or append it if not found
+    # Write the updated README.md content
     with open(readme_path, "w") as readme_file:
         toc_started = False
         for line in readme_content:
-            if line.strip() == "# Table of Contents":
+            if line.strip() == "## Table of Contents":
                 toc_started = True
+                readme_file.write(line)
+                readme_file.write("\n".join(toc_lines) + "\n")
+                continue
+            if toc_started and line.strip() == "":
+                toc_started = False
+                continue
             if not toc_started:
                 readme_file.write(line)
-            elif line.strip() == "" and toc_started:
-                break
-        # Write the new TOC
-        readme_file.write("\n".join(toc_lines) + "\n")
 
 def generate_index_toc(base_dir, index_file):
     """Generate a TOC for the root index.html file with folder names."""
