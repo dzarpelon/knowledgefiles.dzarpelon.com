@@ -245,7 +245,7 @@ def update_readme_with_toc_from_chapters(chapters, readme_file):
                 readme.write(line)
 
 if __name__ == "__main__":
-    # Example usage: Generate TOC for all subdirectories in src
+    # Generate TOC for all subdirectories in src
     base_dir = os.path.join(os.getcwd(), "src")
     for subdir in os.listdir(base_dir):
         subdir_path = os.path.join(base_dir, subdir)
