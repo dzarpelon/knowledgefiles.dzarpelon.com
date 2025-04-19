@@ -1,4 +1,5 @@
 import os
+import json
 
 def get_first_line(file_path):
     """Get the first non-empty line from a markdown file."""
@@ -199,6 +200,50 @@ def update_readme_with_toc(summary_file, readme_file):
             if not toc_started:
                 readme.write(line)
 
+def extract_chapters(chapters):
+    """Extract chapter titles and paths from the chapters data."""
+    entries = []
+    for chapter in chapters:
+        title = chapter.get("name", "Untitled")
+        path = chapter.get("path", "#")
+        entries.append((title, path))
+        if "sub_items" in chapter:
+            entries.extend(extract_chapters(chapter["sub_items"]))
+    return entries
+
+def update_readme_with_toc_from_chapters(chapters, readme_file):
+    """Update the README.md file with the TOC based on chapters data."""
+    if not os.path.exists(readme_file):
+        print(f"README.md not found at {readme_file}")
+        return
+
+    # Extract TOC entries from chapters
+    entries = extract_chapters(chapters)
+
+    # Generate TOC content
+    toc_lines = ["## Table of Contents\n"]
+    for title, path in entries:
+        toc_lines.append(f"- [{title}]({path})")
+
+    # Read the existing README.md content
+    with open(readme_file, "r") as readme:
+        readme_content = readme.readlines()
+
+    # Write the updated README.md content
+    with open(readme_file, "w") as readme:
+        toc_started = False
+        for line in readme_content:
+            if line.strip() == "## Table of Contents":
+                toc_started = True
+                readme.write(line)
+                readme.write("\n".join(toc_lines) + "\n")
+                continue
+            if toc_started and line.strip() == "":
+                toc_started = False
+                continue
+            if not toc_started:
+                readme.write(line)
+
 if __name__ == "__main__":
     # Example usage: Generate TOC for all subdirectories in src
     base_dir = os.path.join(os.getcwd(), "src")
@@ -220,3 +265,14 @@ if __name__ == "__main__":
     readme_file = os.path.join(os.getcwd(), "src", "README.md")
 
     update_readme_with_toc(summary_file, readme_file)
+
+    # Example usage: Update README.md with TOC from chapters data
+    chapters_file = os.path.join(os.getcwd(), "book", "chapters.json")
+    readme_file = os.path.join(os.getcwd(), "src", "README.md")
+
+    if os.path.exists(chapters_file):
+        with open(chapters_file, "r") as file:
+            chapters_data = json.load(file)
+            update_readme_with_toc_from_chapters(chapters_data, readme_file)
+    else:
+        print(f"Chapters data not found at {chapters_file}")
