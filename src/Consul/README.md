@@ -3,6 +3,3 @@
 This directory contains Consul documents and my cheat sheets.
 
 # Table of Contents
-
-- [Cheatsheet](cheatsheet.md)
-- [Install](install.md)
