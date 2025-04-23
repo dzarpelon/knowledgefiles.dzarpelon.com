@@ -254,27 +254,3 @@ if __name__ == "__main__":
         if os.path.isdir(subdir_path):
             generate_toc(subdir_path)
 
-    # Generate TOC snippet for the root README.md using SUMMARY.md
-    summary_file = os.path.join(os.getcwd(), "src", "SUMMARY.md")
-    snippet_file = os.path.join(os.getcwd(), "src", "toc_snippet.html")
-    readme_file = os.path.join(os.getcwd(), "src", "README.md")
-
-    generate_toc_snippet(summary_file, snippet_file)
-    include_toc_in_readme(readme_file, snippet_file)
-
-    # Example usage: Update README.md with TOC from SUMMARY.md
-    summary_file = os.path.join(os.getcwd(), "src", "SUMMARY.md")
-    readme_file = os.path.join(os.getcwd(), "src", "README.md")
-
-    update_readme_with_toc(summary_file, readme_file)
-
-    # Example usage: Update README.md with TOC from chapters data
-    chapters_file = os.path.join(os.getcwd(), "book", "chapters.json")
-    readme_file = os.path.join(os.getcwd(), "src", "README.md")
-
-    if os.path.exists(chapters_file):
-        with open(chapters_file, "r") as file:
-            chapters_data = json.load(file)
-            update_readme_with_toc_from_chapters(chapters_data, readme_file)
-    else:
-        print(f"Chapters data not found at {chapters_file}")
