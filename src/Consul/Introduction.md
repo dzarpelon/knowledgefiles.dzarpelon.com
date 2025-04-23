@@ -2,8 +2,9 @@
 
 These notes are based on the Youtube video <a href="https://youtu.be/mxeMdl0KvBI" target="_blank" rel="noopener">Introduction to HashiCorp Consul with Armon Dadgar</a> at the oficial Hashicorp channel.
 
+<div style="text-align: center;">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/mxeMdl0KvBI" frameborder="0" allowfullscreen></iframe>
-
+</div>
 - The change from monolitic applications to microservices introduces a few challenges as now the services are distributed and communication occurs via network. ]
 - One of these challenges is service discovery.
 - Before we tackled this issue by adding load balancers and hardcoding the LB ip address in the application.
