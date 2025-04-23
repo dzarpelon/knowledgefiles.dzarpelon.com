@@ -40,20 +40,27 @@ def generate_toc(directory):
     with open(readme_path, "r") as readme_file:
         readme_content = readme_file.readlines()
 
-    # Write the updated README.md content
+    # Write the updated README.md content, replacing any existing TOC section
     with open(readme_path, "w") as readme_file:
         toc_started = False
+        toc_written = False
         for line in readme_content:
             if line.strip() == "## Table of Contents":
+                if not toc_written:
+                    readme_file.write("## Table of Contents\n")
+                    readme_file.write("\n".join(toc_lines[1:]) + "\n")
+                    toc_written = True
                 toc_started = True
-                readme_file.write(line)
-                readme_file.write("\n".join(toc_lines) + "\n")
                 continue
-            if toc_started and line.strip() == "":
+            if toc_started and (line.strip() == "" or line.startswith("- ")):
+                continue
+            if toc_started and not (line.strip() == "" or line.startswith("- ")):
                 toc_started = False
-                continue
             if not toc_started:
                 readme_file.write(line)
+        # If no TOC header was found, append it at the end
+        if not toc_written:
+            readme_file.write("\n" + "\n".join(toc_lines) + "\n")
 
 def generate_index_toc(base_dir, index_file):
     """Generate a TOC for the root index.html file with folder names."""
