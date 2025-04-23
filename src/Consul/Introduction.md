@@ -1,6 +1,8 @@
 # Introduction to Consul
 
-These notes are based on the Youtube video "[Introduction to HashiCorp Consul with Armon Dadgar](https://youtu.be/mxeMdl0KvBI)" at the oficial Hashicorp channel.
+These notes are based on the Youtube video <a href="https://youtu.be/mxeMdl0KvBI" target="_blank" rel="noopener">Introduction to HashiCorp Consul with Armon Dadgar</a> at the oficial Hashicorp channel.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/mxeMdl0KvBI" frameborder="0" allowfullscreen></iframe>
 
 - The change from monolitic applications to microservices introduces a few challenges as now the services are distributed and communication occurs via network. ]
 - One of these challenges is service discovery.
