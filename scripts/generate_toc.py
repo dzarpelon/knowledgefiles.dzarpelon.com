@@ -22,6 +22,9 @@ def generate_toc(directory):
         if f.endswith(".md") and f != "README.md"
     ]
 
+    print(f"[DEBUG] Directory: {directory}")
+    print(f"[DEBUG] Markdown files found: {markdown_files}")
+
     # Sort files alphabetically
     markdown_files.sort()
 
@@ -31,6 +34,7 @@ def generate_toc(directory):
         file_path = os.path.join(directory, md_file)
         title = get_first_line(file_path)
         toc_lines.append(f"- [{title}]({md_file})")
+    print(f"[DEBUG] TOC lines generated: {toc_lines}")
 
     # Read the existing README.md content
     with open(readme_path, "r") as readme_file:
@@ -253,4 +257,6 @@ if __name__ == "__main__":
         subdir_path = os.path.join(base_dir, subdir)
         if os.path.isdir(subdir_path):
             generate_toc(subdir_path)
+
+    print("[DEBUG] TOC generation completed.")
 
