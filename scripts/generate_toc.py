@@ -257,6 +257,50 @@ def update_readme_with_toc_from_chapters(chapters, readme_file):
             if not toc_started:
                 readme.write(line)
 
+def generate_root_toc(src_dir, readme_path):
+    """Generate a TOC in the root README.md with links to each main folder."""
+    if not os.path.exists(readme_path):
+        print(f"No README.md found at {readme_path}")
+        return
+
+    # List all subdirectories in src_dir (ignore hidden folders)
+    folders = [
+        f for f in os.listdir(src_dir)
+        if os.path.isdir(os.path.join(src_dir, f)) and not f.startswith('.')
+    ]
+    folders.sort()
+
+    toc_lines = ["## Table of Contents\n"]
+    for folder in folders:
+        toc_lines.append(f"- [{folder}]({folder}/)")
+    print(f"[DEBUG] Root TOC lines generated: {toc_lines}")
+
+    # Read the existing README.md content
+    with open(readme_path, "r") as readme_file:
+        readme_content = readme_file.readlines()
+
+    # Write the updated README.md content, replacing any existing TOC section
+    with open(readme_path, "w") as readme_file:
+        toc_started = False
+        toc_written = False
+        for line in readme_content:
+            if line.strip() == "## Table of Contents":
+                if not toc_written:
+                    readme_file.write("## Table of Contents\n")
+                    readme_file.write("\n".join(toc_lines[1:]) + "\n")
+                    toc_written = True
+                toc_started = True
+                continue
+            if toc_started and (line.strip() == "" or line.startswith("- ")):
+                continue
+            if toc_started and not (line.strip() == "" or line.startswith("- ")):
+                toc_started = False
+            if not toc_started:
+                readme_file.write(line)
+        # If no TOC header was found, append it at the end
+        if not toc_written:
+            readme_file.write("\n" + "\n".join(toc_lines) + "\n")
+
 if __name__ == "__main__":
     # Generate TOC for all subdirectories in src
     base_dir = os.path.join(os.getcwd(), "src")
@@ -264,6 +308,8 @@ if __name__ == "__main__":
         subdir_path = os.path.join(base_dir, subdir)
         if os.path.isdir(subdir_path):
             generate_toc(subdir_path)
-
+    # Generate root TOC for src/README.md
+    root_readme = os.path.join(base_dir, "README.md")
+    generate_root_toc(base_dir, root_readme)
     print("[DEBUG] TOC generation completed.")
 
