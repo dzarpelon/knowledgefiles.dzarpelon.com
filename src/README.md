@@ -6,4 +6,4 @@ This is a work in progress, and I will be adding more content over time. If you 
 
 ## Table of Contents
 
-<!-- TOC will be dynamically inserted here -->
+- [Consul](Consul/README.md)
