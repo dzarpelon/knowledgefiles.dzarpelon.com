@@ -1,4 +1,4 @@
-# 3. Gossip Protocol
+# 03. Gossip Protocol
 
 Consul's gossip protocol is described in detail in the [official documentation](https://developer.hashicorp.com/consul/docs/architecture/gossip).
 

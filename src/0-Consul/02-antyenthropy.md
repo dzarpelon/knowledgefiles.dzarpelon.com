@@ -1,4 +1,4 @@
-# 2. Anti-Entropy
+# 02. Anti-Entropy
 
 Anti-Entropy in Consul is better described on this document [Anti-Entropy Enforcement](https://developer.hashicorp.com/consul/docs/architecture/anti-entropy).
 
