@@ -20,10 +20,10 @@ Consul's consensus protocol is described in detail in the [official documentatio
 
 - **Raft Protocol Overview:**
 
-  - Nodes can be in one of three states: follower, candidate, or leader.
-  - Followers accept log entries and cast votes. If no leader is detected, a node becomes a candidate and requests votes.
-  - A candidate with a quorum of votes becomes leader, accepts new log entries, and replicates them to followers.
-  - All writes go through the leader; reads can be served in different consistency modes.
+  - Nodes can be in one of three states:
+  - follower: Followers accept log entries and cast votes. If no leader is detected, a node becomes a candidate and requests votes.
+  - candidate: A candidate with a quorum of votes becomes leader, accepts new log entries, and replicates them to followers.
+  - leader: All writes go through the leader; reads can be served in different consistency modes.
 
 - **Consistency Modes:**
 
