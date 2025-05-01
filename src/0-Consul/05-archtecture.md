@@ -1,4 +1,4 @@
-# 05. Consul Architecture
+# Consul Architecture
 
 Consul architecture is better described on this document [Consul Architecture](https://developer.hashicorp.com/consul/docs/architecture).
 

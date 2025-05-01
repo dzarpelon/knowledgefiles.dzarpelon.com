@@ -1,4 +1,4 @@
-# 04. Consensus Protocol
+# Consensus Protocol
 
 Consul's consensus protocol is described in detail in the [official documentation](https://developer.hashicorp.com/consul/docs/architecture/consensus).
 

@@ -1,4 +1,4 @@
-# 01. Introduction to Consul
+# Introduction to Consul
 
 These notes are based on the Youtube video <a href="https://youtu.be/mxeMdl0KvBI" target="_blank" rel="noopener">Introduction to HashiCorp Consul with Armon Dadgar</a> at the oficial Hashicorp channel.
 
