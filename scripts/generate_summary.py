@@ -12,10 +12,11 @@ def walk_dir(base, rel=''):
     entries = []
     full_path = os.path.join(base, rel)
     for name in sorted(os.listdir(full_path)):
+        if name == 'SUMMARY.md':
+            continue  # Skip SUMMARY.md itself
         path = os.path.join(full_path, name)
         rel_path = os.path.join(rel, name)
         if os.path.isdir(path):
-            # Add folder as a section if it has a README.md
             readme = os.path.join(path, 'README.md')
             if os.path.exists(readme):
                 entries.append((get_title(readme), os.path.join(rel_path, 'README.md'), walk_dir(base, rel_path)))
@@ -42,4 +43,6 @@ if __name__ == '__main__':
     entries = walk_dir(src_dir)
     with open(summary_path, 'w') as f:
         f.write('# Summary\n\n')
+        # Always add the Welcome page first
+        f.write('- [Welcome](' + 'README.md' + ')\n')
         write_summary(entries, f)
