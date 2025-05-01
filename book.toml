@@ -5,5 +5,3 @@ multilingual = false
 src = "src"
 title = "Diego's Knowledge Files"
 
-[preprocessor.auto-gen-summary]
-first-line-as-link-text = true

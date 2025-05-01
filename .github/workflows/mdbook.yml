@@ -34,13 +34,15 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.x"
+      - name: Generate SUMMARY.md
+        run: |
+          python3 scripts/generate_summary.py
       - name: Run TOC generation script
         run: |
           python3 scripts/generate_toc.py
       - name: Use mdbook-builder Docker image
         run: |
           docker run --rm -v "${{ github.workspace }}:/workspace" -w /workspace dzarpelon/mdbook-builder:latest bash -c "\
-            mdbook-auto-gen-summary gen src && \
             mdbook build"
       - name: Setup Pages
         id: pages
