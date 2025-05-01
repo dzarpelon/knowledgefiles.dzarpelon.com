@@ -19,6 +19,7 @@ def walk_dir(base, rel=''):
         if os.path.isdir(path):
             readme = os.path.join(path, 'README.md')
             if os.path.exists(readme):
+                # Use the first title from the folder's README.md as the link text
                 entries.append((get_title(readme), os.path.join(rel_path, 'README.md'), walk_dir(base, rel_path)))
             else:
                 sub_entries = walk_dir(base, rel_path)
