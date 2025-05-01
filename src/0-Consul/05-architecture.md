@@ -37,3 +37,29 @@ Here's an example of Consul architecture:
         - If the leader fails, a new leader is elected.
         - Consensus is achieved using the Raft protocol. That runs on port 8300.
     - **Client agents:**
+      - Client agensts report node and service health to the server agents.
+      - Should be run on every compute node.
+      - Use RPC over port 8300 to communicate with server agents.
+      - Recommend to run a maximum of 5000 client agents per datacenter.
+      - Additional Datacenters can be added to the cluster.
+    - **Lan Gossip pool:**
+      - distribute and perform node helth checks
+      - Consist on both server and client agents
+      - Run on port 8301 UDP with TCP fallback if UDP is not available.
+    - **Cross datacenter requests:**
+      - By default information is not shared between datacenters.
+      - Information can be shared using WAN federation and/or cluster peering.
+      - **Wan federation:**
+        - connect multiple datacenters.
+        - a primary datacenter is required to connect the multiple datacenters.
+        - the primary datacenter has authoritative information about the other datacenters.
+        - If a remote client agent requests some resource from a remote datacenter, a local server will forward the request, via RPC, to another remote server that has access to the resource.
+        - Wan federated runs on port TCP 8300
+        - **Wan Gossip:**
+          - optimised for WAN communication with high latency.
+          - enable information sharing between datacenters.
+          - run on port TCP/UDP 8302.
+        - **Cluster peering:**
+          - Connect independent clusters using peering.
+          - can also make admin partitions (these partitions allow us to have isolated network regions within the same Consul servers) communicate with each other.
+          - That communication is done via tokens.
