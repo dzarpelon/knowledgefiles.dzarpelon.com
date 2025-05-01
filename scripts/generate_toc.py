@@ -258,10 +258,20 @@ def update_readme_with_toc_from_chapters(chapters, readme_file):
                 readme.write(line)
 
 def generate_root_toc(src_dir, readme_path):
-    """Generate a TOC in the root README.md with links to each main folder."""
+    """Generate a TOC in the root README.md with links to each main folder, using the first title from each folder's README.md as the link text."""
     if not os.path.exists(readme_path):
         print(f"No README.md found at {readme_path}")
         return
+
+    def get_folder_title(folder_path):
+        readme_file = os.path.join(folder_path, "README.md")
+        if os.path.exists(readme_file):
+            with open(readme_file, "r") as f:
+                for line in f:
+                    line = line.strip()
+                    if line.startswith('#'):
+                        return line.lstrip('#').strip()
+        return os.path.basename(folder_path)
 
     # List all subdirectories in src_dir (ignore hidden folders)
     folders = [
@@ -272,7 +282,9 @@ def generate_root_toc(src_dir, readme_path):
 
     toc_lines = ["## Table of Contents\n"]
     for folder in folders:
-        toc_lines.append(f"- [{folder}]({folder}/)")
+        folder_path = os.path.join(src_dir, folder)
+        link_text = get_folder_title(folder_path)
+        toc_lines.append(f"- [{link_text}]({folder}/)")
     print(f"[DEBUG] Root TOC lines generated: {toc_lines}")
 
     # Read the existing README.md content
