@@ -60,4 +60,4 @@ I'm changing it here so I don't have to change it in every command line run or i
   > In this section, you manually create ACL tokens for the Consul DNS service and your server agent. Perform the following steps for each token:
   >
   > 1. Define the ACL riles in a policy configuration file.
-- We should be having `rules` instead of `riles`.
+  - We should be having `rules` instead of `riles`.
